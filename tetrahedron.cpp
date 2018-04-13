@@ -6,18 +6,27 @@
 #include "tetrahedron.h"
 
 
-
-// centroid calculation
-void Tetrahedron::compute_centroid (){
-
-    for (int i = 0; i < coord_points[0].size(); i++ ) {
-        for (int j = 0; j <coord_points.size(); j++ )
-            centroid[i] +=  coord_points[j][i]/4;
+/// constructor
+Tetrahedron::Tetrahedron(int i,std::array<std::array<double, 3>, 4>coord)
+{
+    id_ = i;
+    coord_points_ = coord;
+}
+/// centroid calculation
+void Tetrahedron::compute_centroid(){
+    for (int i = 0; i < coord_points_.size(); i++ ) {
+        for (auto &coord_point : coord_points_){
+            centroid_[i] += coord_point[i]/4;
+        }
     }
 }
-// print centroid coordinates
-void Tetrahedron::print_centroid_coord(){
-    std::cout << "centroid coordinated of tetrahedron"<< std::endl;
-    for(int i = 0; i < centroid.size(); ++i)
-        std::cout << "Centroid[" << i << "] = " << centroid[i] << std::endl;
+/// return centroid
+std::array<double, 3> Tetrahedron::centroid(){
+    return centroid_;
 }
+/// return i
+int Tetrahedron::id(){
+    return id_;
+}
+
+

@@ -11,12 +11,15 @@
 
 
 class Tetrahedron {
-    // attributes
-    std::array<double, 3> centroid;
+    ///
+    /// attributes
+    ///
+    int id_;
+    std::array<double, 3> centroid_;
+    std::array<std::array<double, 3>, 4>coord_points_;
 /*--------------------------------------------
 TET
---------------------------------------------
-
+----------------------------------------------
                n4
              / | \
             /  |  \
@@ -38,12 +41,14 @@ TET
 --------------------------------------------*/
 
 public:
-    std::array<std::array<double, 3>, 4>coord_points;
+    Tetrahedron(int i,std::array<std::array<double, 3>, 4>coord);
+
     //calculate the centroid coordinates of the tetrahedron
     // input: coordinates of 4 point  coord(ni,(x,y,z))
-    void  compute_centroid ();
+    void  compute_centroid();
     //print the centroid coordinates of the tetrahedron
-    void print_centroid_coord();
+    std::array<double, 3> centroid();
+    int id();
 };
 
 #endif //CENTROID_TETRAHEDRON_H

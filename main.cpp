@@ -7,18 +7,16 @@
 
 
 int main () {
+    std::array<std::array<double, 3>, 4> points{{ {3,2,-1}, {5, 0, 2},{-4,5,7}, {-2,4,1}}};
 
-    Tetrahedron tet;
+    Tetrahedron * tet = new Tetrahedron(2,points);
     // Tetrahedron coordinates point
-
-
-    tet.coord_points = {{{3,2,-1}, {5, 0, 2},{-4,5,7}, {-2,4,1}}};
-
-    //std::array<std::array<double, 3>, 4> points{{ {3,2,-1}, {5, 0, 2},{-4,5,7}, {-2,4,1}}};
+    // return id tetrahedron
+    tet->id();
     // centroid calculation
-    tet.compute_centroid();
-    // print centroid coords
-    tet.print_centroid_coord();
+    tet->compute_centroid();
+    // return centroid coords
+    tet->centroid();
 
 
     std::string line;
