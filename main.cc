@@ -1,23 +1,25 @@
-// example: one class, two objects
 #include <array>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <string>
 #include "tetrahedron.h"
 
 
 int main () {
+    /// id tetrahedron
+    int id;
+    /// Tetrahedron coordinates point
     std::array<std::array<double, 3>, 4> points{{ {3,2,-1}, {5, 0, 2},{-4,5,7}, {-2,4,1}}};
 
-    Tetrahedron * tet = new Tetrahedron(2,points);
-    // Tetrahedron coordinates point
-    // return id tetrahedron
-    tet->id();
-    // centroid calculation
+    ///create object
+    std::shared_ptr<Tetrahedron> tet = std:: make_shared<Tetrahedron>(2,points);
+    /// return id tetrahedron
+    id = tet->id();
+    /// centroid calculation
     tet->compute_centroid();
-    // return centroid coords
+    /// return centroid coords
     tet->centroid();
-
 
     std::string line;
     std::ifstream infile;
@@ -39,6 +41,4 @@ int main () {
     infile.close();
 
    // system ("pause");
-
-
 }
