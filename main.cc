@@ -8,22 +8,22 @@
 
 int main () {
     /// id tetrahedron
-    int id;
-    /// Tetrahedron coordinates point
+    int id = 1; /**< id tetrahedron */
+    //! Tetrahedron coordinates point
     std::array<std::array<double, 3>, 4> points{{ {3,2,-1}, {5, 0, 2},{-4,5,7}, {-2,4,1}}};
 
-    ///create object
-    std::shared_ptr<Tetrahedron> tet = std:: make_shared<Tetrahedron>(2,points);
-    /// return id tetrahedron
-    id = tet->id();
-    /// centroid calculation
+    //!create object
+    std::shared_ptr<Tetrahedron> tet = std:: make_shared<Tetrahedron>(id,points);
+    //! centroid calculation
     tet->compute_centroid();
-    /// return centroid coords
-    tet->centroid();
+    //! return id tetrahedron
+    id = tet->id();
+    //! return centroid coords
+    std::array<double, 3> centroid = tet->centroid();
 
     std::string line;
     std::ifstream infile;
-    infile.open("/home/julioa/CLionProjects/centroid/cube.msh");
+    infile.open("cube.msh");
     // open *.msh file
     if(!infile.is_open())
     {
@@ -35,10 +35,10 @@ int main () {
     while(line != "$EndElements") // To get you all the lines.
     {
         getline(infile,line); // Saves the line in STRING.
-        std::cout<<line; // Prints our STRING.
+        std::cout<<line<< std::endl; // Prints our STRING.
     }
 
     infile.close();
 
-   // system ("pause");
+    //system ("pause");
 }
