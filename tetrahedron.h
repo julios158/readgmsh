@@ -1,73 +1,32 @@
-/* File: tetrahedron.h
-   Details: Implementation of  tetrahedron class for calculate a centroid of a tetrahedron.
-   Author: Julio Rueda on 10/04/18.
-*/
-
-#ifndef CENTROID_TETRAHEDRON_H
-#define CENTROID_TETRAHEDRON_H
+#ifndef CENTROID_TETRAHEDRON_H_
+#define CENTROID_TETRAHEDRON_H_
 #include <array>
-#include <iostream>
 
 //!  A Tetrahedron class.
-/*!
-  Basic information of a Tetrahedron where
-  is possible to calculate the centroid of a tetrahedron
-*/
+//! \brief Base class that stores the information about nodes
+//! \details Tetrahedron centroide is calculated
 class Tetrahedron {
-/*
--------------------------------------------
-TETRAHEDRON
----------------------------------------------
-               n4
-             / | \
-            /  |  \
-           /   |   \
-         /     |     \
-        /      |      \
-       /       |       \
-     /         |        \
-    /          |          \
-   /           |           \
- n1------------|-----------n3
-   \           |           /
-     \         |         /
-       \       |       /
-         \     |     /
-           \   |   /
-             \ | /
-               n2
---------------------------------------------
-*/
     public:
-        //! A constructor
-        /*!
-            \sa Tetrahedron()
-            \param id the first argument.
-            \param coord the second argument.
-        */
+        // Constructor with id and coordinates
+        //! \param[in] id assign as the id_ of the tetrahedron
+        //! \param[in] coords coordinates of the tetrahedron nodes
         Tetrahedron(unsigned id, std::array<std::array<double, 3>, 4>coord);
-        //! compute centroid function
-        /*!calculate the centroid coordinates of a tetrahedron
-            */
+        //! compute centroid coordinates of a tetrahedron
         void  compute_centroid();
-        //! centroid function which return tetrahedron centroid
-        /*!
-            \sa centroid()
-            \return centroid_.
-        */
+        //! Return centroid coordinates
+        //! \param[out] centroid_ return coordinates of the tetrahedron centroide
         std::array<double, 3> centroid() const;
-        //! id function which return tetrahedron id
-        /*!
-            \sa id()
-            \return id_.
-        */
+        //! Return id of the tetrahedron
         unsigned id() const { return id_; }
 
     private:
-        //! private attributes
-        unsigned id_; /**< id of the tetrahedron */
-        std::array<double, 3> centroid_; /**< array with the centroid coords */
-        std::array<std::array<double, 3>, 4>coord_points_; /**< array with the nodal coords */
+        // private attributes
+        //! id of the tetrahedron
+        unsigned id_;
+        //! array of the centroide coordinates
+        std::array<double, 3> centroid_;
+        //! array with the nodal coordinates of the tetrahedron
+        std::array<std::array<double, 3>, 4>coord_points_;
 };
 
 #endif //LEM_CENTROID_TETRAHEDRON_H

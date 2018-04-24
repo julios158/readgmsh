@@ -1,44 +1,28 @@
 #include <array>
-#include <fstream>
 #include <iostream>
 #include <memory>
-#include <string>
 #include "tetrahedron.h"
 
 
 int main () {
-    /// id tetrahedron
-    int id = 1; /**< id tetrahedron */
-    //! Tetrahedron coordinates point
-    std::array<std::array<double, 3>, 4> points{{ {3,2,-1}, {5, 0, 2},{-4,5,7}, {-2,4,1}}};
 
-    //!create object
+    // id tetrahedron
+    unsigned id = 1; /**< id tetrahedron */
+
+    // Tetrahedron coordinates point
+    std::array<std::array<double, 3>, 4> points{{{3,2,-1}, {5, 0, 2},{-4,5,7}, {-2,4,1}}};
+
+    //create object
     std::shared_ptr<Tetrahedron> tet = std:: make_shared<Tetrahedron>(id,points);
-    //! centroid calculation
+
+    // centroid calculation
     tet->compute_centroid();
-    //! return id tetrahedron
-    id = tet->id();
-    //! return centroid coords
-    std::array<double, 3> centroid = tet->centroid();
 
-    std::string line;
-    std::ifstream infile;
-    infile.open("cube.msh");
-    // open *.msh file
-    if(!infile.is_open())
-    {
-        std::cout << " could not open file" << std::endl;
-        std::cout << " program Terminating....\n";
-        exit(EXIT_FAILURE);
-    }
+    // return centroid coords
+    auto centroid = tet->centroid();
 
-    while(line != "$EndElements") // To get you all the lines.
-    {
-        getline(infile,line); // Saves the line in STRING.
-        std::cout<<line<< std::endl; // Prints our STRING.
-    }
+    // print centroid coords
+    for (unsigned i = 0; i < centroid.size(); i++)
+        std::cout << centroid.at(i) << std::endl;
 
-    infile.close();
-
-    //system ("pause");
 }
