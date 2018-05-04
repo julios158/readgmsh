@@ -14,7 +14,6 @@ include_directories(
 #However, the file(GLOB...) allows for wildcard additions:
 SET(GmshLem_src
   src/main.cc
-  src/tetrahedron.cc
 )
 
 add_executable(GmshLem ${GmshLem_src})
