@@ -1,7 +1,7 @@
 //! \param[in] id assign as the id_ of the element
 //! \param[in] coords coordinates of the element nodes
 template <unsigned Tdim,unsigned Tnnodes>
-void SolidElement<Tdim,Tnnodes>::SolidElement(unsigned id, const std::array<std::array<double, Tdim>, Tnnodes> &coords)//:id_{id}
+SolidElement<Tdim,Tnnodes>::SolidElement(unsigned id, const std::array<std::array<double, Tdim>, Tnnodes> &coords)//:id_{id}
 {
   id_ = id;
   coord_points_ = coords;

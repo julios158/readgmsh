@@ -9,7 +9,7 @@ class SolidElement{
   public:
         //! \param[in] id assign as the id_ of the tetrahedron
         //! \param[in] coords coordinates of the tetrahedron nodes
-        void SolidElement(unsigned id, const std::array<std::array<double, Tdim>, Tnnodes> &coords);
+        SolidElement(unsigned id, const std::array<std::array<double, Tdim>, Tnnodes> &coords);
         //! compute centroid coordinates of a element
         void  compute_centroid();
         //! Return centroid coordinates
