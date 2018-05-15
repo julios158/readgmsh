@@ -8,12 +8,10 @@ include_directories(
   ${GmshLem_SOURCE_DIR}/include
 )
 
-#Can manually add the sources using the set command as follows:
-#set(SOURCES src/mainapp.cpp src/Student.cpp)
 
-#However, the file(GLOB...) allows for wildcard additions:
 SET(GmshLem_src
   src/main.cc
+  src/read_mesh_file.cc
 )
 
 add_executable(GmshLem ${GmshLem_src})
