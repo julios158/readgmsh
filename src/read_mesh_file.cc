@@ -1,6 +1,4 @@
-#include <iostream>
 #include "read_mesh_file.h"
-#include <vector>
 //! \briefClass for ReadGmsh file.
 //! \details read and store nodes coordinates and nodal incidence of elements
 //! \@param inputstream_ file
@@ -13,7 +11,7 @@ ReadGmsh::~ReadGmsh() {
 //! \Search for a section named "$sectionName" in the ReadGmsh's stream.
 //! \@param  section_name name of the section to search for
 //! \@return true if the section is found, false otherwise
- bool ReadGmsh::find_section(std::string section_name) {//the function findSection look for the interest line
+ bool ReadGmsh::find_section(std::string section_name) {
 	std::string line;
 	std::string line_name;
 	bool found_section_name = false;
@@ -54,9 +52,9 @@ std::vector <std::vector<double> > ReadGmsh::read_coords_nodes()
             }
             // checking two or three dimensional mesh
             if ( coords_nodes.at(i).at(2) != 0. )
-                D3dim_ = 3;
+                D3dim_ = true;
      }
-      return coords_nodes;
+     return coords_nodes;
 }
 //! \Read mesh nodal incidence from an input file.
 void ReadGmsh::read_nodal_incidence()
@@ -99,4 +97,36 @@ void ReadGmsh::read_nodal_incidence()
                     }
      }
 }
-
+//! \print centroid coordinates of the tetrahedra elements.
+void ReadGmsh::print_centroid_coords()
+{
+    //! \Read mesh nodes from an input file.
+    //! \@return nodes coordinates
+    std::vector<std::vector<double>>nodes = read_coords_nodes();
+    //! \Read mesh nodal incidence from an input file.
+    read_nodal_incidence();
+    //! \@return true if 3D analysis type
+    bool D3dim = dimension();
+    if (D3dim){
+        const int Tdim = 3;
+        const int npoint = 4;
+        // Tetrahedron coordinates point
+        std::array<std::array<double, Tdim>,  npoint > tetpoints;
+        for(unsigned k = 0; k < tetrahedron_elements_.size(); k++){
+            for(unsigned j = 0; j <  npoint ; j++){
+                for(unsigned i = 0; i < Tdim; i++)
+                   tetpoints.at(j).at(i)= nodes.at(tetrahedron_elements_.at(k).at(j)).at(i);
+            }
+            //create object for tetrahedron element
+            auto tet = std::make_shared<SolidElement<Tdim,npoint>> (k,tetpoints);
+            // centroid calculation
+            tet->compute_centroid();
+            // return centroid coords
+            auto centroid = tet->centroid();
+            // print centroid coords
+            for (auto const &coords : centroid)
+                std::cout << coords << ", ";
+            std::cout << std::endl;
+        }
+    }
+}
