@@ -7,7 +7,16 @@ ReadGmsh::ReadGmsh(std::istream & _is): inputstream_(_is) {
 
 ReadGmsh::~ReadGmsh() {
 }
-
+//! \read and storage coords nodes
+//! \read and storage nodal incidence of elements.
+void ReadGmsh::read_mesh_file()
+{
+    //! \Read mesh nodes from an input file.
+    //! \@return nodes coordinates
+    nodes_ = read_coords_nodes();
+    //! \Read mesh nodal incidence from an input file.
+    read_nodal_incidence();
+}
 //! \Search for a section named "$sectionName" in the ReadGmsh's stream.
 //! \@param  section_name name of the section to search for
 //! \@return true if the section is found, false otherwise
@@ -37,12 +46,12 @@ std::vector <std::vector<double> > ReadGmsh::read_coords_nodes()
 	std::istringstream linestream;
     getline(inputstream_, line);
 	linestream.str(line);
-	int nnodes; int id_temp;
+	int id_temp;
 	D3dim_ = false; // default dimension analysis
-	linestream >> nnodes;
-    std::vector <std::vector<double> > coords_nodes(nnodes, std::vector<double>(3, 0));
+	linestream >> nnodes_;
+    std::vector <std::vector<double> > coords_nodes(nnodes_, std::vector<double>(3, 0));
     // read node coordinates
-    for(int i = 0; i < nnodes; i++){
+    for(int i = 0; i < nnodes_; i++){
             getline(inputstream_, line);
 			linestream.str(line);
 			linestream.clear();
@@ -56,7 +65,7 @@ std::vector <std::vector<double> > ReadGmsh::read_coords_nodes()
      }
      return coords_nodes;
 }
-//! \Read mesh nodal incidence from an input file.
+//! \Read and storage mesh nodal incidence from an input file.
 void ReadGmsh::read_nodal_incidence()
 {
     find_section("$Elements");
@@ -100,14 +109,7 @@ void ReadGmsh::read_nodal_incidence()
 //! \print centroid coordinates of the tetrahedra elements.
 void ReadGmsh::print_centroid_coords()
 {
-    //! \Read mesh nodes from an input file.
-    //! \@return nodes coordinates
-    std::vector<std::vector<double>>nodes = read_coords_nodes();
-    //! \Read mesh nodal incidence from an input file.
-    read_nodal_incidence();
-    //! \@return true if 3D analysis type
-    bool D3dim = dimension();
-    if (D3dim){
+    if (D3dim_){
         const int Tdim = 3;
         const int npoint = 4;
         // Tetrahedron coordinates point
@@ -115,7 +117,7 @@ void ReadGmsh::print_centroid_coords()
         for(unsigned k = 0; k < tetrahedron_elements_.size(); k++){
             for(unsigned j = 0; j <  npoint ; j++){
                 for(unsigned i = 0; i < Tdim; i++)
-                   tetpoints.at(j).at(i)= nodes.at(tetrahedron_elements_.at(k).at(j)).at(i);
+                   tetpoints.at(j).at(i)= nodes_.at(tetrahedron_elements_.at(k).at(j)).at(i);
             }
             //create object for tetrahedron element
             auto tet = std::make_shared<SolidElement<Tdim,npoint>> (k,tetpoints);
@@ -130,3 +132,4 @@ void ReadGmsh::print_centroid_coords()
         }
     }
 }
+

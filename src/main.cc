@@ -14,6 +14,8 @@ int main () {
     }
     //create object
     ReadGmsh readmesh(infile);
+    //read file.msh
+    readmesh.read_mesh_file();
     //print centroid coords
     readmesh.print_centroid_coords();
     //close file

@@ -1,11 +1,12 @@
 #ifndef GMESHLEM_READ_MESH_FILE_H
 #define GMESHLEM_READ_MESH_FILE_H
 #include <array>
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <memory>
 #include <sstream>
-#include <iostream>
+#include <stdio.h>
 #include <vector>
 #include "tetrahedron.h"
 
@@ -21,18 +22,21 @@ class ReadGmsh {
         //! \@param  string name of the section to search for
         //! \@return true if the section is found, false otherwise.
 		bool find_section(std::string);
+        //! \read nodes and elements information.
+		void read_mesh_file();
         //! \Read mesh nodes from an input file.
         //! \@return nodes coordinates
         std::vector <std::vector<double>> read_coords_nodes();
-        //! \Read mesh nodal incidence from an input file.
+        //! \Read and storage mesh nodal incidence from an input file.
 		void read_nodal_incidence();
-		//! \@return true if 3D analysis type
-		bool dimension() {return D3dim_;};
+        //! \print centroid coordinates of the tetrahedra elements.
 		void print_centroid_coords();
 
     private:
         std::istream & inputstream_;
         bool D3dim_;
+        int nnodes_;
+        std::vector <std::vector<double>> nodes_;
         std::vector<std::vector<int>> line_elements_;
         std::vector<std::vector<int>> triangle_elements_;
         std::vector<std::vector<int>> tetrahedron_elements_;
